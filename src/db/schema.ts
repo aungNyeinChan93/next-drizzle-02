@@ -90,6 +90,7 @@ export const articleRelations = relations(articleTable, ({ one, many }) => ({
         fields: [articleTable.author_id],
         references: [user.id]
     }),
+    comments: many(commentTable)
 }));
 
 // comments

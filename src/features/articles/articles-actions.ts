@@ -3,6 +3,7 @@
 import { articleTable } from "@/db/schema";
 import { db } from "@/lib/drizzle";
 import { ArticleSchema } from "@/lib/zod-schema/articles-schema"
+import { eq } from "drizzle-orm";
 
 
 export async function createArticleAction(initial: any, formData: FormData) {
@@ -33,4 +34,17 @@ export async function createArticleAction(initial: any, formData: FormData) {
     }
 
     return { success: true }
+};
+
+
+
+
+export async function deleteArticleAction(id: number) {
+
+    const deleted_id = await db.delete(articleTable)
+        .where(eq(articleTable.id, id as number))
+        .returning({
+            id: articleTable.id
+        })
+    return deleted_id
 }

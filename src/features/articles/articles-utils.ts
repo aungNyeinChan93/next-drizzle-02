@@ -11,10 +11,27 @@ export async function getAllarticles() {
         with: {
             user: {
                 columns: { email: true, name: true }
-            }
+            },
+            comments: true
         },
         orderBy: (table, fn) => fn.desc(table.created_at),
 
     })
     return articles;
+};
+
+
+
+export async function getArticleById(id: number) {
+    const article = await db.query.articleTable.findFirst({
+        with: {
+            user: {
+                columns: { email: true, name: true }
+            },
+            comments: true
+        },
+        where: (table, fns) => fns.eq(table.id, id),
+        orderBy: (table, fn) => fn.desc(table.created_at),
+    })
+    return article
 }
